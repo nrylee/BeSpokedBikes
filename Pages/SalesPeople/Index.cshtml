@@ -1,0 +1,67 @@
+﻿@page
+@model BeSpokedBikes.Pages.SalesPeople.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SalesPerson[0].StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalesPerson[0].TerminationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalesPerson[0].FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalesPerson[0].LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalesPerson[0].Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalesPerson[0].Phone)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.SalesPerson) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

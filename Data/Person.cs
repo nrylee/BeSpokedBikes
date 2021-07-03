@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class Person
+    public abstract class Person
     {
         [Key]
         public int Id { get; set; }

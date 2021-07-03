@@ -11,13 +11,13 @@
     {
         [Key]
         public int Id { get; set; }
+        [DataType(DataType.Currency)]
+        public decimal AmountDiscounted { get; set; }
         
-        [ForeignKey("SaleItem")]
         public int SaleItem_Id { get; set; }
-        [ForeignKey("Discount")]
         public int Discount_Id { get; set; }
 
-        public virtual SaleItem SaleItem { get; set; }
-        public virtual Discount Discount { get; set; }
+        public SaleItem SaleItem { get; set; }
+        public Discount Discount { get; set; }
     }
 }

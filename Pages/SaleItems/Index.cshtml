@@ -1,0 +1,55 @@
+﻿@page
+@model BeSpokedBikes.Pages.SaleItems.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SaleItem[0].Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SaleItem[0].PreDiscountPricePer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SaleItem[0].ProductStyle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SaleItem[0].Sale)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.SaleItem) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreDiscountPricePer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductStyle.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sale.Id)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

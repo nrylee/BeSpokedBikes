@@ -1,0 +1,43 @@
+﻿@page
+@model BeSpokedBikes.Pages.AppliedDiscounts.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>SaleItemDiscount</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SaleItemDiscount.AmountDiscounted" class="control-label"></label>
+                <input asp-for="SaleItemDiscount.AmountDiscounted" class="form-control" />
+                <span asp-validation-for="SaleItemDiscount.AmountDiscounted" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SaleItemDiscount.SaleItem_Id" class="control-label"></label>
+                <select asp-for="SaleItemDiscount.SaleItem_Id" class ="form-control" asp-items="ViewBag.SaleItem_Id"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SaleItemDiscount.Discount_Id" class="control-label"></label>
+                <select asp-for="SaleItemDiscount.Discount_Id" class ="form-control" asp-items="ViewBag.Discount_Id"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

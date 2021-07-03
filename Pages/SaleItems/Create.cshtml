@@ -1,0 +1,48 @@
+﻿@page
+@model BeSpokedBikes.Pages.SaleItems.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>SaleItem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SaleItem.Sale_Id" class="control-label"></label>
+                <select asp-for="SaleItem.Sale_Id" class ="form-control" asp-items="ViewBag.Sale_Id"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SaleItem.ProductStyle_Id" class="control-label"></label>
+                <select asp-for="SaleItem.ProductStyle_Id" class ="form-control" asp-items="ViewBag.ProductStyle_Id"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SaleItem.Quantity" class="control-label"></label>
+                <input asp-for="SaleItem.Quantity" class="form-control" />
+                <span asp-validation-for="SaleItem.Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SaleItem.PreDiscountPricePer" class="control-label"></label>
+                <input asp-for="SaleItem.PreDiscountPricePer" class="form-control" />
+                <span asp-validation-for="SaleItem.PreDiscountPricePer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
