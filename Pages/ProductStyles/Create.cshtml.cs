@@ -20,7 +20,7 @@ namespace BeSpokedBikes.Pages.ProductStyles
 
         public IActionResult OnGet()
         {
-        ViewData["Product_Id"] = new SelectList(_context.Products, "Id", "Id");
+        ViewData["Product_Id"] = new SelectList(_context.Products, "Id", "Name");
             return Page();
         }
 
@@ -31,6 +31,12 @@ namespace BeSpokedBikes.Pages.ProductStyles
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var existingStyle = _context.ProductStyles.FirstOrDefault(ps => ps.Product_Id == ProductStyle.Product_Id && ps.StyleName == ProductStyle.StyleName);
+            if (existingStyle != null)
             {
                 return Page();
             }

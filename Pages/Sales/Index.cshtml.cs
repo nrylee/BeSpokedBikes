@@ -19,12 +19,35 @@ namespace BeSpokedBikes.Pages.Sales
         }
 
         public IList<Sale> Sale { get;set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(DateTime? startDate, DateTime? endDate)
         {
-            Sale = await _context.Sales
+            StartDate = startDate;
+            EndDate = endDate;
+            var queryable = _context.Sales
                 .Include(s => s.Customer)
-                .Include(s => s.SalesPerson).ToListAsync();
+                .Include(s => s.SalesPerson)
+                .Include(s => s.Items)
+                .ThenInclude(i => i.AppliedDiscounts)
+                .Include(s => s.Items)
+                .ThenInclude(i => i.ProductStyle)
+                .ThenInclude(p => p.Product).AsQueryable();
+            if (StartDate.HasValue || EndDate.HasValue)
+            {
+                queryable = queryable.Where(s => s.SellDateTime.HasValue);
+                if (StartDate.HasValue)
+                {
+                    queryable = queryable.Where(s => s.SellDateTime >= StartDate);
+                }
+                if (EndDate.HasValue)
+                {
+                    queryable = queryable.Where(s => s.SellDateTime <= EndDate);
+                }
+            }
+            Sale = await queryable
+                .ToListAsync();
         }
     }
 }

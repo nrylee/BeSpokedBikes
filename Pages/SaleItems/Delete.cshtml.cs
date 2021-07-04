@@ -47,14 +47,16 @@ namespace BeSpokedBikes.Pages.SaleItems
             }
 
             SaleItem = await _context.SaleItems.FindAsync(id);
-
+            int saleid = -1;
             if (SaleItem != null)
             {
+                saleid = SaleItem.Sale_Id ?? -1;
                 _context.SaleItems.Remove(SaleItem);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Sales/Edit", new { Id = saleid });
+            //return RedirectToPage("./Index");
         }
     }
 }

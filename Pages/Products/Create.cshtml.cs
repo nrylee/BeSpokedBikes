@@ -20,7 +20,7 @@ namespace BeSpokedBikes.Pages.Products
 
         public IActionResult OnGet()
         {
-        ViewData["Manufacturer_Id"] = new SelectList(_context.Manufacturers, "Id", "Id");
+            ViewData["Manufacturer_Id"] = new SelectList(_context.Manufacturers, "Id", "Name");
             return Page();
         }
 
@@ -31,6 +31,12 @@ namespace BeSpokedBikes.Pages.Products
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var existingProduct = _context.Products.FirstOrDefault(p => p.Manufacturer_Id == Product.Manufacturer_Id && p.Name == Product.Name);
+            if (existingProduct != null)
             {
                 return Page();
             }

@@ -8,29 +8,67 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
+<div class="row">
+    <div class="col">
+        <a asp-page="Create">Create New</a>
+    </div>
+    <div class="col-auto">
+        <form method="get">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        Date Range
+                    </div>
+                </div>
+                <input type="date" class="form-control" name="startDate" value="@(Model.StartDate.HasValue ? Model.StartDate.Value.ToShortDateString() : string.Empty)" />
+                <div class="input-group-text rounded-0">
+                    to
+                </div>
+                <input type="date" class="form-control" name="endDate" value="@(Model.EndDate.HasValue ? Model.EndDate.Value.ToShortDateString() : string.Empty)" />
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">
+                        Filter
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
+            <th>Sale Date</th>
+            <th>Product</th>
             <th>
                 @Html.DisplayNameFor(model => model.Sale[0].Customer)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Sale[0].SalesPerson)
             </th>
+            <th>Price</th>
+            <th>Commission</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model.Sale) {
         <tr>
+            <td>@(item.SellDateTime.HasValue ? item.SellDateTime.Value.ToShortDateString() : "---")</td>
             <td>
-                @Html.DisplayFor(modelItem => item.Customer.Id)
+                @(string.Join(", ", item.Items.Select(i => i.ProductStyle.StyleName)))
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SalesPerson.Id)
+                @Html.DisplayFor(modelItem => item.Customer.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SalesPerson.FullName)
+            </td>
+            <td>
+                $@(item.Items.Sum(saleitem => (saleitem.PreDiscountPricePer * saleitem.Quantity) - (saleitem.AppliedDiscounts?.Sum(d => d.AmountDiscounted) ?? 0M)).ToString("N2"))
+            </td>
+            <td>
+                $@(item.Items.Sum(saleitem => ((saleitem.PreDiscountPricePer * saleitem.Quantity) - (saleitem.AppliedDiscounts?.Sum(d => d.AmountDiscounted) ?? 0M)) * saleitem.ProductStyle.Product.CommissionPercentage).ToString("N2"))
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

@@ -31,7 +31,9 @@ namespace BeSpokedBikes.Pages.SaleItems
 
             SaleItem = await _context.SaleItems
                 .Include(s => s.ProductStyle)
-                .Include(s => s.Sale).FirstOrDefaultAsync(m => m.Id == id);
+                .Include(s => s.Sale)
+                .Include(s => s.AppliedDiscounts)
+                .ThenInclude(d => d.Discount).FirstOrDefaultAsync(m => m.Id == id);
 
             if (SaleItem == null)
             {
@@ -69,7 +71,7 @@ namespace BeSpokedBikes.Pages.SaleItems
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Sales/Edit", new { Id = SaleItem.Sale_Id });
         }
 
         private bool SaleItemExists(int id)

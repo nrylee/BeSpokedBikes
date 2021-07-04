@@ -40,6 +40,46 @@
             </div>
         </form>
     </div>
+    <div class="col-md-8">
+        <div class="list-group">
+            <div class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        Discount
+                    </div>
+                    <div class="col">
+                        Percent
+                    </div>
+                    <div class="col">
+                        Amount
+                    </div>
+                    <div class="col">
+                        Actions
+                    </div>
+                </div>
+            </div>
+            @foreach (var discount in Model.SaleItem.AppliedDiscounts)
+            {
+                <div class="list-group-item">
+                    <div class="row">
+                        <div class="col">
+                            @(discount.Discount.Name)
+                        </div>
+                        <div class="col">
+                            @(discount.Discount.PercentageDiscounted)
+                        </div>
+                        <div class="col">
+                            @(discount.AmountDiscounted)
+                        </div>
+                        <div class="col">
+                            <a asp-page="../AppliedDiscounts/Edit" asp-route-id="@discount.Id">Edit</a> |
+                            <a asp-page="../AppliedDiscounts/Delete" asp-route-id="@discount.Id">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
 
 <div>

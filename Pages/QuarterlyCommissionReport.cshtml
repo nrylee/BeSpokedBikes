@@ -1,0 +1,63 @@
+﻿@page
+@model BeSpokedBikes.Pages.QuarterlyCommissionReportModel
+@{
+    ViewData["Title"] = $@"{Model.Year} Quarterly Report";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>@(Model.Year) Quarterly Report</h1>
+
+<div>
+    <table class="table table-bordered table-striped table-sm">
+        @for (int i = 1; i < 5; i++)
+        {
+            <thead class="thead-dark">
+                <tr>
+                    <th colspan="6">Quarter @i</th>
+                </tr>
+                <tr>
+                    <th>Sales Person</th>
+                    <th>Sales Made</th>
+                    <th>Items Sold</th>
+                    <th>Gross Price</th>
+                    <th>Net Price</th>
+                    <th>Commissions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.SalesByQuarter.ContainsKey(i) && Model.SalesByQuarter[i] != null && Model.SalesByQuarter[i].Count() > 0)
+                {
+                    foreach (var spGroup in Model.SalesByQuarter[i].GroupBy(s => s.SalesPerson))
+                    {
+                        <tr>
+                            <td>@(spGroup.Key.FullName)</td>
+                            <td>@(spGroup.Count())</td>
+                            <td>@(spGroup.Sum(s => s.Items.Count()))</td>
+                            <td>$@(spGroup.Sum(s => s.Items.Sum(i => i.PreDiscountPricePer * i.Quantity)).ToString("N2"))</td>
+                            <td>$@(spGroup.Sum(s => s.Items.Sum(i => (i.PreDiscountPricePer * i.Quantity) - (i.AppliedDiscounts.Sum(d => d.AmountDiscounted)))).ToString("N2"))</td>
+                            <td>$@(spGroup.Sum(s => s.Items.Sum(i => ((i.PreDiscountPricePer * i.Quantity) - (i.AppliedDiscounts.Sum(d => d.AmountDiscounted))) * i.ProductStyle.Product.CommissionPercentage)).ToString("N2"))</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6"><em>No Data For This Quarter</em></td>
+                    </tr>
+                }
+                @if (Model.SalesByQuarter.ContainsKey(i) && Model.SalesByQuarter[i] != null && Model.SalesByQuarter[i].Count() > 0)
+                {
+                    <tr>
+                        <th>Q@(i) Total</th>
+                        <td>@(Model.SalesByQuarter[i].Count())</td>
+                        <td>@(Model.SalesByQuarter[i].Sum(s => s.Items.Count()))</td>
+                        <td>$@(Model.SalesByQuarter[i].Sum(s => s.Items.Sum(i => i.PreDiscountPricePer * i.Quantity)).ToString("N2"))</td>
+                        <td>$@(Model.SalesByQuarter[i].Sum(s => s.Items.Sum(i => (i.PreDiscountPricePer * i.Quantity) - (i.AppliedDiscounts.Sum(d => d.AmountDiscounted)))).ToString("N2"))</td>
+                        <td>$@(Model.SalesByQuarter[i].Sum(s => s.Items.Sum(i => i.PreDiscountPricePer * i.Quantity * i.ProductStyle.Product.CommissionPercentage)).ToString("N2"))</td>
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+</div>
+

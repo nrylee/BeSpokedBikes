@@ -20,8 +20,8 @@ namespace BeSpokedBikes.Pages.Sales
 
         public IActionResult OnGet()
         {
-        ViewData["Customer_Id"] = new SelectList(_context.Customers, "Id", "Id");
-        ViewData["SalesPerson_Id"] = new SelectList(_context.SalesPeople, "Id", "Id");
+        ViewData["Customer_Id"] = new SelectList(_context.Customers, "Id", "FullName");
+        ViewData["SalesPerson_Id"] = new SelectList(_context.SalesPeople, "Id", "FullName");
             return Page();
         }
 

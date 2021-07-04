@@ -34,6 +34,12 @@ namespace BeSpokedBikes.Pages.SalesPeople
                 return Page();
             }
 
+            var existingSalesPerson = _context.SalesPeople.FirstOrDefault(sp => sp.FirstName == SalesPerson.FirstName && sp.LastName == SalesPerson.LastName && sp.Phone == SalesPerson.Phone);
+            if (existingSalesPerson != null)
+            {
+                return Page();
+            }
+
             _context.SalesPeople.Add(SalesPerson);
             await _context.SaveChangesAsync();
 
